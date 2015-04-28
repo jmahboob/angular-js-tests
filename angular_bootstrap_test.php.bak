@@ -1,0 +1,23 @@
+<?php
+
+function selectAll() {
+	$sql = "SELECT * FROM testtable";
+
+	$db = new SQLite3('test.sqlite');
+	if (!$db) die ($error);
+
+	$result = $db->query($sql);
+	if (!$result) die("Sploops :(");
+
+	#while ($row = $result->fetchArray()) {
+	#	var_dump($row);
+	#}
+
+	foreach ($db->query($sql) as $row) {
+		echo json_encode($row[0]);
+	}
+}
+
+selectAll();
+
+?>

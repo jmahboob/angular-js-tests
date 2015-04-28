@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Demo Page</title>
+
+    <style type="text/css" media="all">
+      .selected {
+        background-color: lightskyblue;
+      }
+      .boogaboo {
+        background-color: bisque;
+      }
+    </style>
+  </head>
+  <body ng-app="demo">
+    
+    <h1>Examples</h1>
+
+    <div ng-controller="BasicCtrl as ex1">
+      <h2>Table with Checkboxes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>First Col</th>
+            <th>Second</th>
+            <th>Last Col</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in ex1.items"
+            selection-model
+            selection-model-type="checkbox"
+            selection-model-mode="multiple"
+            selection-model-selected-items="ex1.selectedItems">
+            <td><input type="checkbox"></td>
+            <td>{{$index + 1}}</td>
+            <td>{{item.label}}</td>
+            <td>{{item.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Selected items</h3>
+      <ul>
+        <li ng-repeat="item in ex1.selectedItems">
+          {{$index + 1}} {{item.label}}
+        </li>
+      </ul>
+    </div>
+
+    <div ng-controller="BasicCtrl as ex2">
+      <h2>Basic List with Filter</h2>
+      <input ng-model="querystr" type="text" />
+      <ul>
+        <li ng-repeat="item in ex2.items | filter:querystr"
+            selection-model
+            selection-model-selected-items="ex2.selectedItems">
+          {{$index+1}} <strong>{{item.label}}</strong> ({{item.value}})
+        </li>
+      </ul>
+
+      <h3>Selected items</h3>
+      <ul>
+        <li ng-repeat="item in ex2.selectedItems">
+          {{item.label}}
+        </li>
+      </ul>
+    </div>
+
+    <div ng-controller="NonStandardCtrl as ex3">
+      <h2>Non Standard Attrs</h2>
+
+      <h3>Selection list</h3>
+      <ul>
+        <li ng-repeat="item in ex3.items"
+            selection-model
+            selection-model-selected-attribute="is_checked"
+            selection-model-selected-class="boogaboo"
+            selection-model-selected-items="ex3.selectedItems">
+          {{item.value}} {{item.label}}
+        </li>
+      </ul>
+
+      <h3>Selected items</h3>
+      <ul>
+        <li ng-repeat="item in ex3.selectedItems">
+          {{$index + 1}} {{item.label}}
+        </li>
+      </ul>
+    </div>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../script/selection-model.js" type="text/javascript" charset="utf-8"></script>
+    <script src="main.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>

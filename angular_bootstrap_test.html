@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" ng-app="testModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Example - example-guide-concepts-1-production</title>
+
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0-rc.0/angular.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+	<script src="angular_bootstrap_test.js"></script>
+
+	<script src="script/selection-model.js"></script>
+	
+	<script src="script/ng-file-upload.min.js"></script>
+	<script src="script/ng-file-upload-shim.min.js"></script>
+	<script src="script/ng-file-upload-all.min.js"></script>
+	<script src="script/FileAPI.min.js"></script>
+
+	<script src="script/ng-flow-standalone.min.js"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+
+<style>
+	.right {
+		position: absolute;
+		right: 0px;
+		width: 300px;
+	}
+
+	.left {
+		position: absolute;
+		left: 0px;
+		width: 300px;
+	}
+</style>
+
+<body>
+
+<!-- Code Goes Here -->
+
+<div ng-controller="alertController">
+	<button class='btn btn-default' ng-click="insertRandom(); loadDB()">Insert Random Data</button>
+	<button class='btn btn-default' ng-click="loadDB()">Load SQLite Information</button>
+	<button class='btn btn-success' ng-click="actOnTab()">Act!</button>
+	<div class="right">
+		<tabset vertical="true" type="pills">
+			<tab ng-repeat="item in items track by $index" heading="{{item.one}} | {{item.two}}" ng-click="onTabSelect(item)"></tab>
+		</tabset>
+	</div>
+
+	<div class="left">
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert> 
+		<button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+
+		<br><br>
+
+		<ul class="fancy">
+			<li ng-repeat="item in bag" selection-model>
+				{{$index + 1}} {{item.label}}
+			</li>
+		</ul>
+
+		<input type="text" ng-model="fancyfilter" />
+
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>#</th>
+					<th>Label</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tr ng-repeat="item in bag | filter:fancyfilter" selection-model
+				selection-model-type="checkbox"
+				selection-model-mode="multiple-additive"
+				selection-model-selected-class="foobar">
+				<td><input type="checkbox"></td>
+				<td>{{$index + 1}}</td>
+				<td>{{item.label}}</td>
+				<td>{{item.value}}</td>
+			</tr>
+		</table>
+
+		<br><br>
+		
+		<tabset vertical="true" type="pills">
+			<tab ng-repeat="item in tabs" heading={{item.title}}>{{item.content}}</tab>
+		</tabset>
+
+		<button class="btn btn-success" ngf-select ng-model="files" ngf-multiple="multiple">Select File</button>
+		Upload log:
+		<pre>{{log}}</pre>
+
+		<br><br>
+
+		<div flow-init="{target: 'upload.php', testChunks: false}"
+			flow-files-submitted="$flow.upload()"
+			flow-file-success=$file.msg = $message">
+
+			<input type="file" flow-btn />
+			<span flow-btn>Upload File</span><br>
+
+			<table>
+				<tr ng-repeat="file in $flow.files">
+					<td>{{$index+1}}</td>
+					<td>{{file.name}}</td>
+					<td>{{file.msg}}</td>
+					<td><img flow-img=file /></td>
+				</tr>	
+			</table>
+			<!-- <img flow-img="$flow.files[0]" /> 
+			<img ng-repeat="image in $flow.files" flow-img={{img}} /> -->
+		</div>
+
+
+	</div>
+
+</body>
+</html>
